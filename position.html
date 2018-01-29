@@ -1,0 +1,62 @@
+<html>
+<head>
+   <title>Leaflet geolocate example</title>
+
+   <link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css" />
+   <script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+     integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+     crossorigin=""/>
+     <link rel="stylesheet" href="leaflet-routing-machine.css" />
+     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+
+<script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  crossorigin=""></script>
+  <script src="leaflet-routing-machine.js"></script>
+
+   <script language="javascript">
+      var map;
+
+      function init() {
+         map = new L.Map('map');
+         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+            maxZoom: 18
+         }).addTo(map);
+         map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+
+         // map view before we get the location
+         map.setView(new L.LatLng(51.505, -0.09), 13);
+         
+      }
+
+      function onLocationFound(e) {
+         var radius = e.accuracy / 2;
+         var location = e.latlng
+         L.marker(location).addTo(map)
+         L.circle(location, radius).addTo(map);
+      }
+
+      function onLocationError(e) {
+         alert(e.message);
+      }
+
+      function getLocationLeaflet() {
+         map.on('locationfound', onLocationFound);
+         map.on('locationerror', onLocationError);
+
+         map.locate({setView: true, maxZoom: 16});
+      }
+   </script>
+
+</head>
+<body onLoad="javascript:init();">
+   <div id="map" style="height: 800px; width:1000px;"></div>
+   <input type="button" value="LOKASI SAYA" onClick="javascript:getLocationLeaflet();">
+
+</body>
+</html>
